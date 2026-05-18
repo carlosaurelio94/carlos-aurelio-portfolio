@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Portfolio de Carlos Aurelio — Desarrollador Full Stack especializado en React, Next.js, Node.js y TypeScript."/>
+  <meta property="og:title" content="Carlos Aurelio — Full Stack Developer"/>
+  <meta property="og:description" content="Desarrollo de aplicaciones web y mobile, e-commerce y sistemas de gestión."/>
+  <title>Carlos Aurelio — Full Stack Developer</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0a0a0f;
+      --bg2:       #111118;
+      --bg3:       #1a1a24;
+      --borde:     #2a2a3a;
+      --texto:     #e2e2f0;
+      --muted:     #8888aa;
+      --acento:    #6c63ff;
+      --acento2:   #ff6584;
+      --verde:     #43e97b;
+      --radio:     12px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--texto);
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(10,10,15,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--borde);
+    }
+    .nav-inner {
+      max-width: 1100px; margin: 0 auto;
+      padding: 0 24px; height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo {
+      font-weight: 800; font-size: 1.1rem; letter-spacing: -0.5px;
+      background: linear-gradient(135deg, var(--acento), var(--acento2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none; font-size: .9rem;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--texto); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center;
+      padding: 80px 24px 60px;
+      background:
+        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(108,99,255,0.15), transparent),
+        radial-gradient(ellipse 60% 40% at 80% 80%, rgba(255,101,132,0.08), transparent);
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%236c63ff' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+    .hero-content { position: relative; max-width: 700px; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(108,99,255,0.12); border: 1px solid rgba(108,99,255,0.3);
+      border-radius: 20px; padding: 6px 16px;
+      font-size: .8rem; color: #a89fff; margin-bottom: 24px;
+    }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--verde);
+           animation: pulse 2s infinite; }
+    @keyframes pulse {
+      0%,100% { box-shadow: 0 0 0 0 rgba(67,233,123,0.4); }
+      50%      { box-shadow: 0 0 0 6px rgba(67,233,123,0); }
+    }
+    .hero h1 {
+      font-size: clamp(2.2rem, 6vw, 3.8rem);
+      font-weight: 800; letter-spacing: -1.5px;
+      line-height: 1.1; margin-bottom: 16px;
+    }
+    .hero h1 .nombre { color: var(--texto); }
+    .hero h1 .rol {
+      background: linear-gradient(135deg, var(--acento), var(--acento2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      color: var(--muted); font-size: 1.05rem; max-width: 500px;
+      margin: 0 auto 32px; line-height: 1.7;
+    }
+    .hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 24px; border-radius: 10px; font-size: .95rem;
+      font-weight: 600; text-decoration: none; transition: all .2s; border: none; cursor: pointer;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--acento), #8b83ff);
+      color: white;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(108,99,255,0.35); }
+    .btn-outline {
+      background: transparent; color: var(--texto);
+      border: 1px solid var(--borde);
+    }
+    .btn-outline:hover { background: var(--bg3); border-color: var(--acento); }
+
+    /* ── SECCIONES ── */
+    section { padding: 80px 24px; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+    .section-tag {
+      display: inline-block;
+      background: rgba(108,99,255,0.12); border: 1px solid rgba(108,99,255,0.25);
+      color: #a89fff; font-size: .75rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1.5px; padding: 4px 12px; border-radius: 20px; margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800;
+      letter-spacing: -0.5px; margin-bottom: 8px;
+    }
+    .section-sub { color: var(--muted); font-size: .95rem; margin-bottom: 48px; }
+
+    /* ── SKILLS ── */
+    #skills { background: var(--bg2); }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 12px;
+    }
+    .skill-card {
+      background: var(--bg3); border: 1px solid var(--borde);
+      border-radius: var(--radio); padding: 16px 14px;
+      display: flex; align-items: center; gap: 10px;
+      font-size: .88rem; font-weight: 600;
+      transition: all .2s;
+    }
+    .skill-card:hover { border-color: var(--acento); transform: translateY(-2px); }
+    .skill-icon { font-size: 1.3rem; }
+
+    /* ── PROYECTOS ── */
+    .proyectos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+    }
+    .proyecto-card {
+      background: var(--bg2); border: 1px solid var(--borde);
+      border-radius: 16px; overflow: hidden;
+      transition: all .25s; display: flex; flex-direction: column;
+    }
+    .proyecto-card:hover {
+      border-color: var(--acento);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(108,99,255,0.12);
+    }
+    .proyecto-img {
+      width: 100%; height: 200px;
+      object-fit: cover; object-position: top;
+      background: var(--bg3);
+      display: block;
+      border-bottom: 1px solid var(--borde);
+    }
+    .proyecto-img-placeholder {
+      width: 100%; height: 200px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3rem;
+      border-bottom: 1px solid var(--borde);
+    }
+    .proyecto-body { padding: 20px; flex: 1; display: flex; flex-direction: column; }
+    .proyecto-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+    .tag {
+      font-size: .7rem; font-weight: 700; padding: 3px 9px;
+      border-radius: 20px; background: rgba(108,99,255,0.15);
+      color: #a89fff; border: 1px solid rgba(108,99,255,0.2);
+    }
+    .tag.ts  { background: rgba(49,120,198,0.15); color: #79b8ff; border-color: rgba(49,120,198,0.25); }
+    .tag.js  { background: rgba(240,196,25,0.12); color: #f0c419; border-color: rgba(240,196,25,0.2); }
+    .tag.css { background: rgba(38,143,255,0.12); color: #74b9ff; border-color: rgba(38,143,255,0.2); }
+    .tag.java{ background: rgba(244,67,54,0.12);  color: #ff7675; border-color: rgba(244,67,54,0.2); }
+    .tag.nest{ background: rgba(226,27,60,0.12);  color: #ff6b6b; border-color: rgba(226,27,60,0.2); }
+    .proyecto-nombre { font-size: 1.1rem; font-weight: 800; margin-bottom: 6px; }
+    .proyecto-desc { color: var(--muted); font-size: .88rem; line-height: 1.6; flex: 1; margin-bottom: 16px; }
+    .proyecto-links { display: flex; gap: 10px; margin-top: auto; }
+    .link-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 14px; border-radius: 8px; font-size: .82rem;
+      font-weight: 600; text-decoration: none; transition: all .2s;
+    }
+    .link-github {
+      background: rgba(255,255,255,0.05); color: var(--muted);
+      border: 1px solid var(--borde);
+    }
+    .link-github:hover { background: rgba(255,255,255,0.1); color: var(--texto); }
+    .link-live {
+      background: linear-gradient(135deg, var(--acento), #8b83ff);
+      color: white; flex: 1; justify-content: center;
+    }
+    .link-live:hover { opacity: .88; transform: translateY(-1px); }
+
+    /* ── CONTACTO ── */
+    #contacto { background: var(--bg2); }
+    .contacto-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px; align-items: center;
+    }
+    @media (max-width: 640px) { .contacto-grid { grid-template-columns: 1fr; } }
+    .contacto-texto h2 { font-size: 1.9rem; font-weight: 800; margin-bottom: 12px; }
+    .contacto-texto p  { color: var(--muted); line-height: 1.7; margin-bottom: 24px; }
+    .contacto-items { display: flex; flex-direction: column; gap: 14px; }
+    .contacto-item {
+      display: flex; align-items: center; gap: 14px;
+      background: var(--bg3); border: 1px solid var(--borde);
+      border-radius: var(--radio); padding: 14px 18px;
+      text-decoration: none; color: var(--texto);
+      transition: all .2s;
+    }
+    .contacto-item:hover { border-color: var(--acento); transform: translateX(4px); }
+    .contacto-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; flex-shrink: 0;
+    }
+    .ci-wp    { background: rgba(37,211,102,0.15); }
+    .ci-mail  { background: rgba(108,99,255,0.15); }
+    .ci-gh    { background: rgba(255,255,255,0.08); }
+    .contacto-label { font-size: .75rem; color: var(--muted); margin-bottom: 2px; }
+    .contacto-valor { font-weight: 600; font-size: .92rem; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--bg); border-top: 1px solid var(--borde);
+      text-align: center; padding: 28px 24px;
+      color: var(--muted); font-size: .85rem;
+    }
+    footer strong { color: var(--texto); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .proyectos-grid { grid-template-columns: 1fr; }
+      .skills-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">CA.</div>
+    <ul class="nav-links">
+      <li><a href="#proyectos">Proyectos</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+    <a class="btn btn-outline" style="padding:8px 16px;font-size:.85rem"
+       href="https://github.com/carlosaurelio94" target="_blank">GitHub →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="dot"></span>
+      Disponible para proyectos freelance
+    </div>
+    <h1>
+      <span class="nombre">Carlos Aurelio</span><br>
+      <span class="rol">Full Stack Developer</span>
+    </h1>
+    <p class="hero-sub">
+      Desarrollo aplicaciones web y mobile desde cero —
+      e-commerce, sistemas de gestión, APIs y más.
+      Con foco en código limpio y experiencia de usuario.
+    </p>
+    <div class="hero-btns">
+      <a class="btn btn-primary" href="#proyectos">Ver mis proyectos</a>
+      <a class="btn btn-outline" href="#contacto">Contactarme</a>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-inner">
+    <div class="section-tag">Stack tecnológico</div>
+    <h2 class="section-title">Tecnologías que uso</h2>
+    <p class="section-sub">Herramientas con las que trabajo en el día a día</p>
+    <div class="skills-grid">
+      <div class="skill-card"><span class="skill-icon">⚡</span> TypeScript</div>
+      <div class="skill-card"><span class="skill-icon">⚛️</span> React</div>
+      <div class="skill-card"><span class="skill-icon">▲</span> Next.js</div>
+      <div class="skill-card"><span class="skill-icon">🟢</span> Node.js</div>
+      <div class="skill-card"><span class="skill-icon">🐱</span> Nest.js</div>
+      <div class="skill-card"><span class="skill-icon">🅰️</span> Angular</div>
+      <div class="skill-card"><span class="skill-icon">🐘</span> PostgreSQL</div>
+      <div class="skill-card"><span class="skill-icon">🔷</span> Supabase</div>
+      <div class="skill-card"><span class="skill-icon">☕</span> Java</div>
+      <div class="skill-card"><span class="skill-icon">🐳</span> Docker</div>
+      <div class="skill-card"><span class="skill-icon">🎨</span> CSS / Tailwind</div>
+      <div class="skill-card"><span class="skill-icon">▲</span> Vercel</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROYECTOS -->
+<section id="proyectos">
+  <div class="section-inner">
+    <div class="section-tag">Trabajo</div>
+    <h2 class="section-title">Proyectos destacados</h2>
+    <p class="section-sub">Una selección de lo que construí recientemente</p>
+    <div class="proyectos-grid">
+
+      <!-- Guao Helados -->
+      <div class="proyecto-card">
+        <img class="proyecto-img"
+             src="https://image.thum.io/get/width/640/crop/400/noanimate/url/https://guaohelados.com"
+             alt="Guao Helados"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+        <div class="proyecto-img-placeholder" style="display:none;background:linear-gradient(135deg,#1a1a3a,#2d1b4e)">🍦</div>
+        <div class="proyecto-body">
+          <div class="proyecto-tags">
+            <span class="tag css">CSS</span>
+            <span class="tag js">JavaScript</span>
+            <span class="tag">HTML</span>
+          </div>
+          <div class="proyecto-nombre">Guao Helados</div>
+          <div class="proyecto-desc">
+            Sitio web oficial para una heladería. Diseño atractivo, responsive y optimizado
+            para atraer clientes locales. Incluye menú de productos y redes sociales.
+          </div>
+          <div class="proyecto-links">
+            <a class="link-btn link-github" href="https://github.com/carlosaurelio94/GuaoHelados" target="_blank">
+              ⌥ GitHub
+            </a>
+            <a class="link-btn link-live" href="https://guaohelados.com" target="_blank">
+              ↗ Ver sitio
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- E-Commerce Demo -->
+      <div class="proyecto-card">
+        <img class="proyecto-img"
+             src="https://image.thum.io/get/width/640/crop/400/noanimate/url/https://ecommerce-demo-three-taupe.vercel.app"
+             alt="E-Commerce Demo"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+        <div class="proyecto-img-placeholder" style="display:none;background:linear-gradient(135deg,#1a0a00,#3a1a00)">🛒</div>
+        <div class="proyecto-body">
+          <div class="proyecto-tags">
+            <span class="tag js">JavaScript</span>
+            <span class="tag">HTML</span>
+            <span class="tag css">CSS</span>
+          </div>
+          <div class="proyecto-nombre">E-Commerce Demo</div>
+          <div class="proyecto-desc">
+            Tienda online con catálogo de productos, filtros por categoría, carrito de compras
+            e integración con MercadoPago. Instalable como app (PWA).
+          </div>
+          <div class="proyecto-links">
+            <a class="link-btn link-github" href="https://github.com/carlosaurelio94/ecommerce-demo" target="_blank">
+              ⌥ GitHub
+            </a>
+            <a class="link-btn link-live" href="https://ecommerce-demo-three-taupe.vercel.app" target="_blank">
+              ↗ Ver demo
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chartly -->
+      <div class="proyecto-card">
+        <div class="proyecto-img-placeholder"
+             style="background:linear-gradient(135deg,#0a0a1f,#1a1040)">📊</div>
+        <div class="proyecto-body">
+          <div class="proyecto-tags">
+            <span class="tag ts">TypeScript</span>
+            <span class="tag">Next.js</span>
+            <span class="tag">Supabase</span>
+          </div>
+          <div class="proyecto-nombre">Chartly</div>
+          <div class="proyecto-desc">
+            Aplicación web para visualización de datos y métricas en tiempo real.
+            Construida con Next.js, TypeScript y Supabase. Autenticación y paneles interactivos.
+          </div>
+          <div class="proyecto-links">
+            <a class="link-btn link-github" href="https://github.com/carlosaurelio94/chartly" target="_blank">
+              ⌥ GitHub
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Backoffice Vivero Urbano -->
+      <div class="proyecto-card">
+        <div class="proyecto-img-placeholder"
+             style="background:linear-gradient(135deg,#0a1a0a,#0d2d10)">🌿</div>
+        <div class="proyecto-body">
+          <div class="proyecto-tags">
+            <span class="tag ts">TypeScript</span>
+            <span class="tag">React</span>
+            <span class="tag js">JavaScript</span>
+          </div>
+          <div class="proyecto-nombre">Backoffice Vivero Urbano</div>
+          <div class="proyecto-desc">
+            Sistema de gestión interna para una empresa de viveros. Administración de
+            productos, presupuestos en PDF y seguimiento de clientes.
+          </div>
+          <div class="proyecto-links">
+            <a class="link-btn link-github" href="https://github.com/carlosaurelio94/backoffice-vivero-urbano" target="_blank">
+              ⌥ GitHub
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nest Pokedex -->
+      <div class="proyecto-card">
+        <div class="proyecto-img-placeholder"
+             style="background:linear-gradient(135deg,#1a0000,#3d0000)">🔴</div>
+        <div class="proyecto-body">
+          <div class="proyecto-tags">
+            <span class="tag nest">Nest.js</span>
+            <span class="tag ts">TypeScript</span>
+            <span class="tag">MongoDB</span>
+          </div>
+          <div class="proyecto-nombre">Nest Pokédex</div>
+          <div class="proyecto-desc">
+            API REST con Nest.js que consume la PokéAPI y almacena en base de datos propia.
+            Paginación, filtros y documentación Swagger integrada.
+          </div>
+          <div class="proyecto-links">
+            <a class="link-btn link-github" href="https://github.com/carlosaurelio94/nest-pokedex" target="_blank">
+              ⌥ GitHub
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- NovaBank -->
+      <div class="proyecto-card">
+        <div class="proyecto-img-placeholder"
+             style="background:linear-gradient(135deg,#001a2a,#002d4a)">🏦</div>
+        <div class="proyecto-body">
+          <div class="proyecto-tags">
+            <span class="tag java">Java</span>
+            <span class="tag">Spring Boot</span>
+            <span class="tag">HTML</span>
+          </div>
+          <div class="proyecto-nombre">NovaBank</div>
+          <div class="proyecto-desc">
+            Aplicación de home banking con autenticación, transferencias y gestión de cuentas.
+            Backend en Java con Spring Boot y frontend integrado.
+          </div>
+          <div class="proyecto-links">
+            <a class="link-btn link-github" href="https://github.com/carlosaurelio94/NovaBank" target="_blank">
+              ⌥ GitHub
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section id="contacto">
+  <div class="section-inner">
+    <div class="contacto-grid">
+      <div class="contacto-texto">
+        <div class="section-tag">Contacto</div>
+        <h2>¿Tenés un proyecto en mente?</h2>
+        <p>
+          Estoy disponible para proyectos freelance — desde sitios y tiendas online
+          hasta sistemas de gestión y APIs. Hablemos y veamos cómo puedo ayudarte.
+        </p>
+        <a class="btn btn-primary" href="https://github.com/carlosaurelio94" target="_blank">
+          Ver GitHub →
+        </a>
+      </div>
+      <div class="contacto-items">
+        <a class="contacto-item" href="https://wa.me/5491127287530" target="_blank">
+          <div class="contacto-icon ci-wp">💬</div>
+          <div>
+            <div class="contacto-label">WhatsApp</div>
+            <div class="contacto-valor">+54 9 11 2728-7530</div>
+          </div>
+        </a>
+        <a class="contacto-item" href="mailto:carlosarc10@gmail.com">
+          <div class="contacto-icon ci-mail">✉️</div>
+          <div>
+            <div class="contacto-label">Email</div>
+            <div class="contacto-valor">carlosarc10@gmail.com</div>
+          </div>
+        </a>
+        <a class="contacto-item" href="https://github.com/carlosaurelio94" target="_blank">
+          <div class="contacto-icon ci-gh">⌥</div>
+          <div>
+            <div class="contacto-label">GitHub</div>
+            <div class="contacto-valor">carlosaurelio94</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <strong>Carlos Aurelio</strong> — Full Stack Developer · Buenos Aires, Argentina<br>
+  <span style="font-size:.8rem;margin-top:6px;display:block">
+    Construido con HTML, CSS y JavaScript puro · 2026
+  </span>
+</footer>
+
+</body>
+</html>
