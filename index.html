@@ -302,8 +302,37 @@ section { position: relative; padding: clamp(80px, 12vh, 140px) var(--pad-x); }
   transition: transform 800ms cubic-bezier(.2,.7,.2,1);
 }
 .project:hover .thumb-inner { transform: scale(1.04); }
+
+/* Real screenshot image */
+.thumb-img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center top;
+  opacity: 0;
+  transition: opacity 500ms ease, filter 400ms ease;
+  filter: saturate(0.95) contrast(1.02);
+  z-index: 1;
+}
+.thumb-img.loaded { opacity: 1; }
+.thumb.contain .thumb-img {
+  object-fit: contain; object-position: center;
+  background: radial-gradient(ellipse 70% 60% at 50% 50%, var(--bg-2), var(--bg));
+  padding: 6%;
+}
+.project:hover .thumb-img { filter: saturate(1.05) contrast(1.04); }
+.thumb-frame {
+  position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.04),
+    inset 0 -60px 80px -40px rgba(0,0,0,0.55);
+}
+.thumb .motif {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+}
 .thumb-label {
-  position: absolute; bottom: 18px; left: 18px;
+  position: absolute; z-index: 3; bottom: 18px; left: 18px;
   font-family: var(--mono); font-size: 0.7rem;
   color: rgba(255,255,255,0.55); text-transform: uppercase; letter-spacing: 0.16em;
   padding: 5px 9px; border: 1px solid rgba(255,255,255,0.18);
@@ -311,7 +340,7 @@ section { position: relative; padding: clamp(80px, 12vh, 140px) var(--pad-x); }
   background: rgba(0,0,0,0.18);
 }
 .thumb-arrow {
-  position: absolute; top: 18px; right: 18px;
+  position: absolute; z-index: 3; top: 18px; right: 18px;
   width: 38px; height: 38px; border-radius: 50%;
   background: var(--accent); color: var(--accent-ink);
   display: grid; place-items: center;
@@ -404,6 +433,18 @@ section { position: relative; padding: clamp(80px, 12vh, 140px) var(--pad-x); }
 .thumb.p-pokedex .ring::before {
   content: ""; position: absolute; inset: 6%; border-radius: 50%;
   border: 1px solid oklch(0.95 0.04 25 / 0.2);
+}
+.thumb.p-pokedex .ring::after {
+  content: ""; position: absolute; left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  width: 18%; aspect-ratio: 1; border-radius: 50%;
+  background: oklch(0.95 0.04 25 / 0.18);
+  border: 1px solid oklch(0.95 0.04 25 / 0.45);
+}
+.thumb.p-pokedex .bar {
+  position: absolute; left: 0; right: 0; top: 50%;
+  height: 1px; background: oklch(0.10 0.02 25 / 0.55);
+  transform: translateY(-0.5px);
 }
 
 .thumb.p-novabank .thumb-inner { background: linear-gradient(180deg, oklch(0.22 0.06 240), oklch(0.12 0.04 240)); }
@@ -584,7 +625,11 @@ footer { padding: 36px var(--pad-x) 40px; background: var(--bg); border-top: 1px
         <div class="thumb p-helados">
           <div class="thumb-inner">
             <span class="blob a"></span><span class="blob b"></span><span class="blob c"></span>
+            <img class="thumb-img" loading="lazy" referrerpolicy="no-referrer" alt="Guao Helados"
+                 src="https://image.thum.io/get/width/1200/crop/900/noanimate/png/url/https://guaohelados.com"
+                 onerror="this.style.display='none'"/>
           </div>
+          <div class="thumb-frame"></div>
           <span class="thumb-label">Live · guaohelados.com</span>
           <span class="thumb-arrow">↗</span>
         </div>
@@ -603,7 +648,13 @@ footer { padding: 36px var(--pad-x) 40px; background: var(--bg); border-top: 1px
       <!-- 02 E-commerce -->
       <a class="project span-5 tall reveal d1" href="https://ecommerce-demo-three-taupe.vercel.app" target="_blank" rel="noopener" data-hover>
         <div class="thumb p-ecom">
-          <div class="thumb-inner"><span class="glyph">$</span></div>
+          <div class="thumb-inner">
+            <span class="glyph">$</span>
+            <img class="thumb-img" loading="lazy" referrerpolicy="no-referrer" alt="E-commerce Demo"
+                 src="https://image.thum.io/get/width/900/crop/1125/noanimate/png/url/https://ecommerce-demo-three-taupe.vercel.app"
+                 onerror="this.style.display='none'"/>
+          </div>
+          <div class="thumb-frame"></div>
           <span class="thumb-label">Live · Demo</span>
           <span class="thumb-arrow">↗</span>
         </div>
@@ -631,6 +682,7 @@ footer { padding: 36px var(--pad-x) 40px; background: var(--bg); border-top: 1px
               </svg>
             </div>
           </div>
+          <div class="thumb-frame"></div>
           <span class="thumb-label">Repo</span>
           <span class="thumb-arrow">↗</span>
         </div>
@@ -649,7 +701,38 @@ footer { padding: 36px var(--pad-x) 40px; background: var(--bg); border-top: 1px
       <!-- 04 Vivero -->
       <a class="project span-7 wide reveal d1" href="https://github.com/carlosaurelio94/backoffice-vivero-urbano" target="_blank" rel="noopener" data-hover>
         <div class="thumb p-vivero">
-          <div class="thumb-inner"><span class="leaf"></span></div>
+          <div class="thumb-inner">
+            <span class="leaf"></span>
+            <svg class="motif" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet">
+              <defs>
+                <linearGradient id="vg" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0%" stop-color="oklch(0.85 0.14 145)" stop-opacity="0.85"/>
+                  <stop offset="100%" stop-color="oklch(0.55 0.12 145)" stop-opacity="0.4"/>
+                </linearGradient>
+              </defs>
+              <g stroke="url(#vg)" stroke-width="1.4" fill="none" stroke-linecap="round">
+                <path d="M 200 270 L 200 130"/>
+                <path d="M 200 200 C 170 195 145 175 138 145"/>
+                <path d="M 200 200 C 230 195 255 175 262 145"/>
+                <path d="M 200 170 C 175 163 158 145 152 122"/>
+                <path d="M 200 170 C 225 163 242 145 248 122"/>
+                <path d="M 200 140 C 184 132 174 118 172 100"/>
+                <path d="M 200 140 C 216 132 226 118 228 100"/>
+              </g>
+              <g fill="url(#vg)" opacity="0.65">
+                <ellipse cx="138" cy="145" rx="24" ry="10" transform="rotate(-30 138 145)"/>
+                <ellipse cx="262" cy="145" rx="24" ry="10" transform="rotate(30 262 145)"/>
+                <ellipse cx="152" cy="122" rx="20" ry="8" transform="rotate(-25 152 122)"/>
+                <ellipse cx="248" cy="122" rx="20" ry="8" transform="rotate(25 248 122)"/>
+                <ellipse cx="172" cy="100" rx="16" ry="7" transform="rotate(-20 172 100)"/>
+                <ellipse cx="228" cy="100" rx="16" ry="7" transform="rotate(20 228 100)"/>
+                <ellipse cx="200" cy="85" rx="14" ry="18"/>
+              </g>
+              <rect x="170" y="260" width="60" height="30" fill="oklch(0.32 0.04 30)" rx="2"/>
+              <path d="M 168 262 L 232 262" stroke="oklch(0.78 0.16 50)" stroke-width="3" fill="none"/>
+            </svg>
+          </div>
+          <div class="thumb-frame"></div>
           <span class="thumb-label">Repo · Internal</span>
           <span class="thumb-arrow">↗</span>
         </div>
@@ -670,8 +753,10 @@ footer { padding: 36px var(--pad-x) 40px; background: var(--bg); border-top: 1px
         <div class="thumb p-pokedex">
           <div class="thumb-inner">
             <div class="dots"></div>
+            <div class="bar"></div>
             <div class="ring"></div>
           </div>
+          <div class="thumb-frame"></div>
           <span class="thumb-label">Repo · API</span>
           <span class="thumb-arrow">↗</span>
         </div>
@@ -690,7 +775,40 @@ footer { padding: 36px var(--pad-x) 40px; background: var(--bg); border-top: 1px
       <!-- 06 NovaBank -->
       <a class="project span-6 reveal d1" href="https://github.com/carlosaurelio94/NovaBank" target="_blank" rel="noopener" data-hover>
         <div class="thumb p-novabank">
-          <div class="thumb-inner"><div class="arch"></div></div>
+          <div class="thumb-inner">
+            <div class="arch"></div>
+            <svg class="motif" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet">
+              <defs>
+                <linearGradient id="nbg" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="oklch(0.92 0.18 220)" stop-opacity="0.75"/>
+                  <stop offset="100%" stop-color="oklch(0.62 0.16 240)" stop-opacity="0.4"/>
+                </linearGradient>
+              </defs>
+              <g transform="translate(120 105)">
+                <rect width="160" height="96" rx="10" fill="oklch(0.22 0.05 240)" stroke="url(#nbg)" stroke-width="1"/>
+                <rect x="14" y="14" width="24" height="18" rx="3" fill="oklch(0.82 0.16 80 / 0.85)"/>
+                <circle cx="122" cy="22" r="8" fill="oklch(0.78 0.18 25 / 0.65)"/>
+                <circle cx="136" cy="22" r="8" fill="oklch(0.82 0.16 60 / 0.55)"/>
+                <g fill="oklch(0.92 0.06 220 / 0.65)" font-family="monospace" font-size="11" letter-spacing="2">
+                  <text x="14" y="56">5421</text>
+                  <text x="54" y="56">••••</text>
+                  <text x="94" y="56">••••</text>
+                  <text x="134" y="56">8930</text>
+                </g>
+                <text x="14" y="80" fill="oklch(0.7 0.04 220 / 0.6)" font-family="monospace" font-size="8" letter-spacing="1.2">NOVABANK</text>
+                <text x="100" y="80" fill="oklch(0.7 0.04 220 / 0.6)" font-family="monospace" font-size="8" letter-spacing="1.2">12 / 28</text>
+              </g>
+              <g transform="translate(70 60)" fill="none" stroke="url(#nbg)" stroke-width="1">
+                <path d="M 0 130 L 30 130"/>
+                <path d="M 0 130 Q 15 95 30 130"/>
+              </g>
+              <g transform="translate(290 60)" fill="none" stroke="url(#nbg)" stroke-width="1">
+                <path d="M 0 130 L 30 130"/>
+                <path d="M 0 130 Q 15 95 30 130"/>
+              </g>
+            </svg>
+          </div>
+          <div class="thumb-frame"></div>
           <span class="thumb-label">Repo · Java</span>
           <span class="thumb-arrow">↗</span>
         </div>
@@ -816,6 +934,15 @@ footer { padding: 36px var(--pad-x) 40px; background: var(--bg); border-top: 1px
 </footer>
 
 <script>
+/* Thumbnail images: fade in only after successful load */
+(function() {
+  document.querySelectorAll(".thumb-img").forEach(img => {
+    const onload = () => { if (img.naturalWidth > 0) img.classList.add("loaded"); };
+    if (img.complete) onload();
+    else img.addEventListener("load", onload);
+  });
+})();
+
 /* Language toggle */
 (function() {
   const stored = localStorage.getItem("lang");
